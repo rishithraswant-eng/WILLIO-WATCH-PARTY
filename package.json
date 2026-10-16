@@ -26,6 +26,7 @@
     "bench:report": "tsx bench/src/report.ts",
     "seed": "npm run seed -w @willio/server",
     "catalog:generate": "npm run catalog:generate -w @willio/server",
+    "frames": "bash scripts/extract-frames.sh",
     "db:migrate": "prisma migrate deploy --schema prisma/schema.prisma",
     "db:generate": "prisma generate --schema prisma/schema.prisma",
     "format": "prettier --write .",

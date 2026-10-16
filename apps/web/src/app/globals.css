@@ -2,6 +2,7 @@
 @import '../styles/glass.css';
 @import '../styles/pixel.css';
 @import '../styles/world.css';
+@import '../styles/hero.css';
 
 @tailwind base;
 @tailwind components;

@@ -47,9 +47,15 @@ function LiveGauge() {
   return (
     <GlassPanel className="flex flex-col items-center gap-1 p-5" spotlight>
       <ArcGauge value={score} label="sync headroom" size={168} caption={undefined} />
-      <p className="font-mono text-center text-sm text-hi">p95 {p95 == null ? '--' : `${Math.round(p95)} ms`}</p>
+      <p className="font-mono text-center text-sm text-hi">
+        p95 {p95 == null ? '--' : `${Math.round(p95)} ms`}
+      </p>
       <p className="text-center text-xs text-mid">
-        {source === 'live' ? 'live control propagation, rolling 5 min' : source === 'bench' ? 'from the latest bench run' : 'run a room or `npm run bench`'}
+        {source === 'live'
+          ? 'live control propagation, rolling 5 min'
+          : source === 'bench'
+            ? 'from the latest bench run'
+            : 'run a room or `npm run bench`'}
         <br />
         target &le; {target} ms (LAN)
       </p>
@@ -58,13 +64,38 @@ function LiveGauge() {
 }
 
 const ACTIONS: { icon: IconName; title: string; text: string; cta: string; key: string }[] = [
-  { icon: 'plus', title: 'Create', text: 'Spin up a room, get a 6-char code + QR. You are the host.', cta: 'New room', key: 'create' },
-  { icon: 'link', title: 'Join', text: 'Got a code or link? Hop in - late joiners land in sync in < 3s.', cta: 'Demo room', key: 'demo' },
-  { icon: 'compass', title: 'Discover', text: 'Fuzzy search 400+ films, filters, moods, Group Taste Fusion.', cta: 'Browse', key: 'discover' },
-  { icon: 'chart', title: 'How sync works', text: 'Server anchors, clock sync, scheduled starts, drift control.', cta: 'Learn', key: 'how' },
+  {
+    icon: 'plus',
+    title: 'Create',
+    text: 'Spin up a room, get a 6-char code + QR. You are the host.',
+    cta: 'New room',
+    key: 'create',
+  },
+  {
+    icon: 'link',
+    title: 'Join',
+    text: 'Got a code or link? Hop in - late joiners land in sync in < 3s.',
+    cta: 'Demo room',
+    key: 'demo',
+  },
+  {
+    icon: 'compass',
+    title: 'Discover',
+    text: 'Fuzzy search 400+ films, filters, moods, Group Taste Fusion.',
+    cta: 'Browse',
+    key: 'discover',
+  },
+  {
+    icon: 'chart',
+    title: 'How sync works',
+    text: 'Server anchors, clock sync, scheduled starts, drift control.',
+    cta: 'Learn',
+    key: 'how',
+  },
 ];
 
-export function LandingView() {
+/** `topBar={false}` when the page renders its own fixed header (the home route, over the scroll hero). */
+export function LandingView({ topBar = true }: { topBar?: boolean }) {
   const router = useRouter();
   const reduce = useReducedMotion();
   const [profileOpen, setProfileOpen] = useState(false);
@@ -106,23 +137,38 @@ export function LandingView() {
 
   return (
     <div className="flex min-h-screen flex-col">
-      <TopBar />
-      <main id="main" className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 pb-10 pt-4 sm:px-6 lg:pt-10">
+      {topBar ? <TopBar /> : <div className="h-[68px] shrink-0" aria-hidden />}
+      <main
+        id="main"
+        className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 pb-10 pt-4 sm:px-6 lg:pt-10"
+      >
         <div className="grid items-stretch gap-6 lg:grid-cols-[1fr_260px]">
-          <motion.div initial={reduce ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}>
+          <motion.div
+            initial={reduce ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          >
             <GlassPanel className="flex h-full flex-col gap-6 p-6 sm:p-10" blur="lg" spotlight>
-              <span className="font-pixel w-fit bg-teal-400/15 px-2 py-1 text-[9px] text-teal-400">REAL-TIME WATCH PARTIES</span>
+              <span className="font-pixel w-fit bg-teal-400/15 px-2 py-1 text-[9px] text-teal-400">
+                REAL-TIME WATCH PARTIES
+              </span>
               <h1 className="font-heading text-gradient text-4xl font-semibold leading-[1.05] sm:text-6xl">
                 Same world.
                 <br />
                 Same frame.
               </h1>
               <p className="max-w-xl text-base text-mid sm:text-lg">
-                Watch together with 25+ friends in frame-accurate sync. Chat, react, vote and build the queue - while a
-                server-authoritative sync engine keeps everyone within a few milliseconds.
+                Watch together with 25+ friends in frame-accurate sync. Chat, react, vote and build the queue
+                - while a server-authoritative sync engine keeps everyone within a few milliseconds.
               </p>
               <div className="flex flex-col gap-5 sm:flex-row sm:items-end">
-                <GlassButton variant="primary" size="lg" icon="plus" onClick={() => void createRoom()} loading={creating}>
+                <GlassButton
+                  variant="primary"
+                  size="lg"
+                  icon="plus"
+                  onClick={() => void createRoom()}
+                  loading={creating}
+                >
                   Create room
                 </GlassButton>
                 <div className="flex flex-col gap-2">
@@ -131,7 +177,8 @@ export function LandingView() {
                 </div>
               </div>
               <p className="text-xs text-lo">
-                Tip: paste an invite link into the boxes. In a room press <Kbd>Space</Kbd> to play/pause and <Kbd>R</Kbd> to resync.
+                Tip: paste an invite link into the boxes. In a room press <Kbd>Space</Kbd> to play/pause and{' '}
+                <Kbd>R</Kbd> to resync.
               </p>
             </GlassPanel>
           </motion.div>
@@ -176,14 +223,31 @@ export function LandingView() {
       <Modal open={howOpen} onClose={() => setHowOpen(false)} title="How sync works" wide>
         <ol className="flex flex-col gap-3 text-sm text-mid">
           {[
-            ['Clock sync', `On join each browser sends ${SYNC.clockBurst} NTP-style pings, keeps the ${SYNC.clockKeep} fastest and takes the median offset - then re-measures every ${SYNC.clockIntervalMs / 1000}s.`],
-            ['Server-authoritative anchors', 'The server owns {status, anchorPos, anchorTime, rate}. Clients never stream positions - they compute pos = anchorPos + (now - anchorTime) x rate.'],
-            ['Scheduled execution', `Every play/pause/seek is scheduled ${SYNC.leadMinMs}-${SYNC.leadMaxMs}ms in the future (adaptive to the worst RTT), so all clients flip on the same wall-clock moment even if packets arrive at different times.`],
-            ['Drift control', `Every ${SYNC.driftLoopMs}ms: under ${SYNC.driftIdleMs}ms do nothing, up to ${SYNC.driftHardMs}ms nudge playbackRate by up to ${SYNC.nudgeMax * 100}%, beyond that hard-seek with seek-latency compensation.`],
-            ['Reliability', 'Sequence numbers, idempotent event ids, a 300-event replay ring for reconnects, host succession after a 10s grace, snapshots for server restarts.'],
+            [
+              'Clock sync',
+              `On join each browser sends ${SYNC.clockBurst} NTP-style pings, keeps the ${SYNC.clockKeep} fastest and takes the median offset - then re-measures every ${SYNC.clockIntervalMs / 1000}s.`,
+            ],
+            [
+              'Server-authoritative anchors',
+              'The server owns {status, anchorPos, anchorTime, rate}. Clients never stream positions - they compute pos = anchorPos + (now - anchorTime) x rate.',
+            ],
+            [
+              'Scheduled execution',
+              `Every play/pause/seek is scheduled ${SYNC.leadMinMs}-${SYNC.leadMaxMs}ms in the future (adaptive to the worst RTT), so all clients flip on the same wall-clock moment even if packets arrive at different times.`,
+            ],
+            [
+              'Drift control',
+              `Every ${SYNC.driftLoopMs}ms: under ${SYNC.driftIdleMs}ms do nothing, up to ${SYNC.driftHardMs}ms nudge playbackRate by up to ${SYNC.nudgeMax * 100}%, beyond that hard-seek with seek-latency compensation.`,
+            ],
+            [
+              'Reliability',
+              'Sequence numbers, idempotent event ids, a 300-event replay ring for reconnects, host succession after a 10s grace, snapshots for server restarts.',
+            ],
           ].map(([t, d], i) => (
             <li key={t} className="flex gap-3">
-              <span className="font-pixel mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center bg-lantern text-[9px] text-ink">{i + 1}</span>
+              <span className="font-pixel mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center bg-lantern text-[9px] text-ink">
+                {i + 1}
+              </span>
               <span>
                 <strong className="text-hi">{t}.</strong> {d}
               </span>

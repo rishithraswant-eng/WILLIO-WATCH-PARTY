@@ -22,6 +22,7 @@ export function TopBar() {
           <Link
             key={n.href}
             href={n.href}
+            aria-label={n.label}
             aria-current={path === n.href ? 'page' : undefined}
             className={cx(
               'font-label pixel-corners-sm inline-flex h-9 items-center gap-1.5 px-3 text-[10px] transition-colors duration-150',

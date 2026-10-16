@@ -1,0 +1,32 @@
+{
+  "version": "af5961716b",
+  "frameCount": 240,
+  "fps": 24,
+  "ext": "webp",
+  "quality": 80,
+  "sets": {
+    "desktop": {
+      "width": 1280,
+      "height": 720,
+      "totalKb": 11671
+    },
+    "mobile": {
+      "width": 404,
+      "height": 720,
+      "totalKb": 4808
+    }
+  },
+  "focal": [
+    [0, 0.29],
+    [114, 0.29],
+    [126, 0.34],
+    [134, 0.47],
+    [140, 0.5],
+    [239, 0.5]
+  ],
+  "edge": {
+    "first": "#0c2118",
+    "last": "#000000"
+  },
+  "placeholder": "data:image/webp;base64,UklGRugAAABXRUJQVlA4INwAAABwBQCdASogABIAPu1gqE2ppSOiMAgBMB2JbAC7AYyyrHMnWkb6wi598dEgIj3j79bTe6dQAP70kFbA5L2n8Vh1QIxt3yRPTVDIKjorEuByfNjezLO61MDBfzIGverpQqIsXPXC3gRRMUfQYdNrON7bF1wIRPsce1lIBTAW9kWnKFI2M/eqUpM+16PpluTdsvzg4N+blcusa8/xQRAbjWzr0uOYWYomQM8nOaWFccPgLXsiQJvLdj1hSymVkbnA85i6YRnSTSJbeZQ2OHN0tA8MCdosqG5j7ZJNAAAA"
+}

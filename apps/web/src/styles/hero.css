@@ -1,0 +1,267 @@
+/* Scroll-driven landing hero (features/hero). Motion is driven from JS via opacity/transform only. */
+
+/* Lenis (only active on the home route). The stock `.lenis-stopped { overflow: clip }` rule is left out on
+   purpose: hiding the scrollbar during the short initial load would shift the layout. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis [data-lenis-prevent],
+.lenis [role='dialog'] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+.hero {
+  position: relative;
+  height: calc(var(--hero-vh, 500) * 1vh);
+  height: calc(var(--hero-vh, 500) * 1svh);
+}
+
+/* Pinned box. lvh: static (no resize jitter when the mobile URL bar moves) and never leaves a gap. */
+.hero-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100lvh;
+  overflow: hidden;
+  will-change: transform;
+}
+
+.hero-frame {
+  position: absolute;
+  inset: 0;
+  contain: strict;
+  container-type: size;
+}
+
+.hero-poster,
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-poster {
+  object-fit: cover;
+  object-position: 30% 50%;
+  object-position: var(--poster-pos);
+  background-color: var(--hero-edge);
+  background-image: var(--hero-placeholder);
+  background-size: cover;
+  background-position: 30% 50%;
+  background-position: var(--poster-pos);
+}
+
+.hero-canvas {
+  opacity: 0;
+}
+
+/* Legibility for the text beats without darkening the whole frame. */
+.hero-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgb(2 8 7 / 0.5) 0%, transparent 14%),
+    radial-gradient(ellipse 60% 80% at 82% 50%, rgb(2 8 7 / 0.55), transparent 70%);
+}
+
+/* Text lives in the small viewport so it never sits under mobile browser chrome. */
+.hero-copy {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 100vh;
+  height: 100svh;
+  pointer-events: none;
+}
+
+.hero-slot {
+  position: absolute;
+}
+.hero-slot-side {
+  top: 50%;
+  right: max(6vw, 24px);
+  width: min(520px, 44vw);
+  transform: translateY(-50%);
+}
+.hero-slot-center {
+  top: 50%;
+  left: 20px;
+  right: 20px;
+  text-align: center;
+  transform: translateY(-50%);
+}
+.hero-slot-bottom {
+  bottom: 9%;
+  left: 20px;
+  right: 20px;
+  text-align: center;
+}
+
+.hero-beat {
+  opacity: 0;
+  visibility: hidden;
+  will-change: opacity, transform;
+}
+.hero-beat[data-beat='intro'] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hero-title {
+  text-shadow: 0 2px 24px rgb(0 0 0 / 0.6);
+}
+.hero-sub {
+  color: rgb(var(--text-hi) / 0.86);
+  text-shadow: 0 1px 12px rgb(0 0 0 / 0.7);
+}
+
+/* Scoped under .hero-beat so Tailwind's .flex on the same node does not win. */
+.hero-beat .hero-reduced-only {
+  display: none;
+}
+
+.hero-eyebrow {
+  background: rgb(4 16 14 / 0.62);
+  box-shadow: inset 0 0 0 1px rgb(var(--teal-400) / 0.35);
+}
+
+.hero-hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hero-ring {
+  position: absolute;
+  opacity: 0;
+  transform: rotate(-90deg);
+  transition: opacity 300ms ease-out;
+}
+.hero-ring-track,
+.hero-ring-bar {
+  fill: none;
+  stroke-width: 2.5;
+}
+.hero-ring-track {
+  stroke: rgb(255 255 255 / 0.14);
+}
+.hero-ring-bar {
+  stroke: rgb(var(--teal-400));
+  transition: stroke-dashoffset 200ms ease-out;
+}
+.hero-hint-scroll {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.08em;
+  transition: opacity 400ms ease-out;
+}
+.hero-hint-arrow {
+  transform: rotate(180deg);
+  animation: hero-bob 1.8s ease-in-out infinite;
+}
+.hero[data-state='loading'] .hero-ring {
+  opacity: 1;
+}
+.hero[data-state='loading'] .hero-hint-scroll {
+  opacity: 0;
+}
+
+@keyframes hero-bob {
+  0%,
+  100% {
+    transform: rotate(180deg) translateY(0);
+  }
+  50% {
+    transform: rotate(180deg) translateY(-3px);
+  }
+}
+
+.hero-end {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* Fixed home header: clear over the hero, frosted over the page. */
+.home-header {
+  background: linear-gradient(180deg, rgb(2 8 7 / 0.45), transparent);
+  transition:
+    background-color 300ms ease-out,
+    box-shadow 300ms ease-out;
+}
+.home-header-solid {
+  background: var(--glass-scrim);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(140%);
+  backdrop-filter: blur(var(--blur)) saturate(140%);
+  box-shadow: 0 1px 0 var(--glass-border);
+}
+
+/* Portrait phones: the mobile frame set (subject already centred); text at the bottom. */
+@media (max-width: 768px) and (max-aspect-ratio: 7/10) {
+  .hero-poster {
+    object-position: 50% 50%;
+    background-position: 50% 50%;
+  }
+}
+@media (max-width: 768px) {
+  .hero-slot-side {
+    top: auto;
+    left: 20px;
+    right: 20px;
+    bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    transform: none;
+  }
+  .hero-shade {
+    background:
+      linear-gradient(180deg, rgb(2 8 7 / 0.5) 0%, transparent 14%),
+      linear-gradient(0deg, rgb(2 8 7 / 0.8) 0%, rgb(2 8 7 / 0.35) 38%, transparent 60%);
+  }
+}
+
+/* No scrubbing: one representative still with the copy and actions, and normal page scrolling. */
+@media (prefers-reduced-motion: reduce) {
+  .hero {
+    height: auto;
+  }
+  .hero-stage {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+  }
+  .hero-canvas,
+  .hero-hint,
+  .hero-beat:not([data-beat='intro']) {
+    display: none;
+  }
+  .hero-poster {
+    object-position: var(--poster-pos-reduced);
+    background-image: none;
+  }
+  .hero-beat .hero-reduced-only {
+    display: flex;
+    pointer-events: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 768px) and (max-aspect-ratio: 7/10) {
+  .hero-poster {
+    object-position: 50% 50%;
+  }
+}

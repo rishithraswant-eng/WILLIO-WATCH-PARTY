@@ -7,11 +7,20 @@ import { Fireflies } from './Fireflies';
 const NOISE =
   "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")";
 
-const Layer = memo(function Layer({ rects, depth, children }: { rects: Rect[]; depth: number; children?: ReactNode }) {
+const Layer = memo(function Layer({
+  rects,
+  depth,
+  children,
+}: {
+  rects: Rect[];
+  depth: number;
+  children?: ReactNode;
+}) {
   return (
     <svg
       className="world-layer absolute inset-[-24px] h-[calc(100%+48px)] w-[calc(100%+48px)]"
       style={{ ['--depth' as string]: depth }}
+      data-depth={depth}
       viewBox={`0 0 ${SCENE_W} ${SCENE_H}`}
       preserveAspectRatio="xMidYMax slice"
       shapeRendering="crispEdges"
@@ -32,7 +41,10 @@ const Layer = memo(function Layer({ rects, depth, children }: { rects: Rect[]; d
 export function WorldBackground() {
   const root = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
-  const layers = useMemo(() => (mounted ? { far: farLayer(), mid: midLayer(), water: waterLayer(), front: frontLayer() } : null), [mounted]);
+  const layers = useMemo(
+    () => (mounted ? { far: farLayer(), mid: midLayer(), water: waterLayer(), front: frontLayer() } : null),
+    [mounted],
+  );
 
   useEffect(() => setMounted(true), []);
 
@@ -48,8 +60,12 @@ export function WorldBackground() {
       if (!raf)
         raf = requestAnimationFrame(() => {
           raf = 0;
-          el.style.setProperty('--px', tx.toFixed(3));
-          el.style.setProperty('--py', ty.toFixed(3));
+          // A direct transform per layer: changing a custom property here would restyle all ~4k voxel
+          // rects (~50ms per pointer move); a transform change restyles only the 4 layers.
+          el.querySelectorAll<SVGElement>('.world-layer').forEach((layer) => {
+            const d = Number(layer.dataset.depth);
+            layer.style.transform = `translate3d(${(-tx * d).toFixed(2)}px, ${(-ty * d * 0.6).toFixed(2)}px, 0)`;
+          });
         });
     };
     window.addEventListener('pointermove', onMove, { passive: true });
@@ -61,7 +77,10 @@ export function WorldBackground() {
 
   return (
     <div ref={root} className="world pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden>
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(180deg, #03100d 0%, #072620 45%, #0c3a33 75%, #04100e 100%)' }} />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(180deg, #03100d 0%, #072620 45%, #0c3a33 75%, #04100e 100%)' }}
+      />
       {layers ? (
         <div className="world-scene absolute inset-0">
           <Layer rects={layers.far} depth={2}>
@@ -84,7 +103,13 @@ export function WorldBackground() {
                 <stop offset="100%" stopColor="#ffcf5c" stopOpacity="0" />
               </radialGradient>
             </defs>
-            <circle className="lantern-glow" cx={layers.front.lantern.x} cy={layers.front.lantern.y} r="22" fill="url(#lanternGlow)" />
+            <circle
+              className="lantern-glow"
+              cx={layers.front.lantern.x}
+              cy={layers.front.lantern.y}
+              r="22"
+              fill="url(#lanternGlow)"
+            />
           </Layer>
         </div>
       ) : null}
@@ -107,7 +132,10 @@ export function WorldBackground() {
       {mounted ? <Fireflies /> : null}
       {/* Layer D: mist (light theme), vignette, noise */}
       <div className="absolute inset-0" style={{ background: 'var(--world-mist)' }} />
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at 50% 45%, transparent 45%, rgba(0,0,0,0.6) 100%)' }} />
+      <div
+        className="absolute inset-0"
+        style={{ background: 'radial-gradient(ellipse at 50% 45%, transparent 45%, rgba(0,0,0,0.6) 100%)' }}
+      />
       <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: NOISE }} />
     </div>
   );

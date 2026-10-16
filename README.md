@@ -38,16 +38,16 @@ Migrations run on server boot and the Movie table is seeded from `apps/server/da
 
 ## What is in the box
 
-| Requirement | Where |
-| --- | --- |
-| **R1** create/join via invite link or code | landing (code boxes accept pastes of links), `/r/CODE`, invite modal with QR, optional room password |
-| **R2** sync play/pause/seek | server-authoritative anchors + scheduled execution (`packages/shared/src/sync.ts`, `syncCore.ts`) |
+| Requirement                                               | Where                                                                                                                                                                                                                         |
+| --------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **R1** create/join via invite link or code                | landing (code boxes accept pastes of links), `/r/CODE`, invite modal with QR, optional room password                                                                                                                          |
+| **R2** sync play/pause/seek                               | server-authoritative anchors + scheduled execution (`packages/shared/src/sync.ts`, `syncCore.ts`)                                                                                                                             |
 | **R3** recommendations: categories, filters, fuzzy search | `/discover` and the room's Discover tab: Fuse.js typo-tolerant search with highlights + keyboard nav, genre/year/rating/runtime/language/mood/free filters, Trending / Top rated / Moods / Open & free rows, **Taste Fusion** |
-| **R4** reactions, chat, playlists, polls, host transfer | 9-slot reaction hotbar (aggregated per 250 ms), chat with mentions/commands/typing/outbox, drag-reorder queue with upvotes and auto-advance, actionable polls, manual + automatic host transfer, request host |
-| **R5** drift detection & correction | 500 ms control loop: dead zone 60 ms, playbackRate nudge up to 6%, hard seek >= 500 ms with seek-latency compensation |
-| **R6** late joins, reconnections, concurrent actions | snapshot on join, `eseq` ring-buffer replay, outbox resend, per-room serial queue, idempotent event ids |
-| **C1-C3** 10+ users, p95 <= 250 ms, drift <= 500 ms | measured by `npm run bench` (S1-S9), see [docs/LATENCY.md](docs/LATENCY.md) and `/bench` |
-| **C4** documentation | [LATENCY.md](docs/LATENCY.md), [FAILURES.md](docs/FAILURES.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md), [DECISIONS.md](docs/DECISIONS.md) |
+| **R4** reactions, chat, playlists, polls, host transfer   | 9-slot reaction hotbar (aggregated per 250 ms), chat with mentions/commands/typing/outbox, drag-reorder queue with upvotes and auto-advance, actionable polls, manual + automatic host transfer, request host                 |
+| **R5** drift detection & correction                       | 500 ms control loop: dead zone 60 ms, playbackRate nudge up to 6%, hard seek >= 500 ms with seek-latency compensation                                                                                                         |
+| **R6** late joins, reconnections, concurrent actions      | snapshot on join, `eseq` ring-buffer replay, outbox resend, per-room serial queue, idempotent event ids                                                                                                                       |
+| **C1-C3** 10+ users, p95 <= 250 ms, drift <= 500 ms       | measured by `npm run bench` (S1-S9), see [docs/LATENCY.md](docs/LATENCY.md) and `/bench`                                                                                                                                      |
+| **C4** documentation                                      | [LATENCY.md](docs/LATENCY.md), [FAILURES.md](docs/FAILURES.md), [ARCHITECTURE.md](docs/ARCHITECTURE.md), [DECISIONS.md](docs/DECISIONS.md)                                                                                    |
 
 Creative features: **Group Taste Fusion** (least-misery + average fusion with per-member compatibility bars and a
 "why" line), **spoiler-safe time-locked chat** (messages from later in the movie stay blurred; on by default for late
@@ -74,37 +74,74 @@ reactions and a void 404.
 `Space` play/pause - `<-`/`->` seek 5 s - `Up`/`Down` volume - `M` mute - `F` fullscreen - `R` resync me -
 `H` sync health - `1`-`9` reactions.
 
+## Scroll hero (landing page)
+
+The home route opens with a pinned, scroll-scrubbed intro: the video is pre-extracted into an image sequence and
+drawn on a `<canvas>` (no `video.currentTime` seeking). Code: `apps/web/src/features/hero/`.
+
+**Replace the video**
+
+1. Put the new clip at `assets/source/hero.mp4` (git-ignored; only the generated frames are committed).
+2. If the subject is not where the panda is, edit the `FOCAL` track at the top of `scripts/extract-frames.sh`
+   (`[frame, x 0..1]` = horizontal centre of the subject; it drives the portrait mobile crop and the desktop crop).
+3. `npm run frames` (needs ffmpeg; the script prints install hints). It writes
+   `apps/web/public/hero-frames/{desktop,mobile}/f_0001.webp...` and `manifest.json` (frame count, sizes,
+   edge colours, inline placeholder, content hash used as `?v=` for immutable caching).
+4. Retime the text beats and `posterFrame` in `HERO` if the new footage needs it.
+
+**Frame sets**: desktop 1280px wide; mobile is a 9:16 crop at native resolution (406x720) that follows the
+subject, used on portrait viewports up to 768px wide (or with Save-Data). A 720px-wide set would leave ~190 real
+pixels across a phone after the cover crop.
+
+**Tunables** - one `HERO` object at the top of `apps/web/src/features/hero/scrollSequence.ts`:
+
+| Key                                         | Default        | What                                                                             |
+| ------------------------------------------- | -------------- | -------------------------------------------------------------------------------- |
+| `scrollVh`                                  | 500            | section height in viewport heights (400vh of scrubbing)                          |
+| `damping`                                   | 12             | playhead damping K: `current += (target - current) * (1 - exp(-dt*K))`           |
+| `restSnapMs`                                | 140            | at rest the playhead glides onto a whole frame (no half-blended still)           |
+| `cacheAhead` / `cacheBehind`                | 36 / 18        | decoded full-res frames kept around the playhead (direction-biased)              |
+| `sparseStride`, `proxyStride`, `proxyScale` | 8, 4, 0.3      | load order and the small always-resident fallback frames                         |
+| `fetchConcurrency`, `maxDecodes`            | 6, 4           | network / `createImageBitmap` parallelism                                        |
+| `beats`                                     | ...            | text beats `[fadeInStart, fadeInEnd, fadeOutStart, fadeOutEnd]` in progress 0..1 |
+| `fadeOut`, `hint`                           | [0.93, 1], ... | canvas fade into the page background; scroll-hint fade                           |
+| `mobileZoom`                                | ...            | zoom-out track for the mobile crop (fits the W logo)                             |
+| `lenis`                                     | lerp 0.1       | wheel smoothing (touch stays native)                                             |
+
+`/?hero-debug` exposes the engine as `window.__hero` (stats: decoded, evicted, resident, exact/fallback draws).
+`prefers-reduced-motion` shows one still frame with the copy and normal scrolling.
+
 ## Scripts
 
-| Command | What |
-| --- | --- |
-| `npm run dev` | server (tsx watch) + web (next dev) |
-| `npm run build` / `npm start` | production builds |
-| `npm test` | unit + integration tests (Vitest; server tests use real sockets) |
-| `npm run test:e2e` | Playwright, 3 browser contexts (`npx playwright install chromium` once) |
-| `npm run lint` / `npm run typecheck` | ESLint (strict TS) / tsc |
-| `npm run bench` | all scenarios S1-S9 against a spawned server, writes `bench/results/` + `docs/LATENCY.md` |
-| `npm run bench -- --scenario S2 --users 25 --duration 300` | one scenario, longer |
-| `npm run bench -- --url http://<ip>:4000 --scenario S1` | against a running server (LAN) |
-| `npm run bench -- --ci` | CI gate: 10 users, 60 s, fails if p95 > 250 ms |
-| `npm run seed` | load the catalog into Postgres (`DATABASE_URL` required) |
-| `npm run catalog:generate` | regenerate `catalog.json` |
+| Command                                                    | What                                                                                      |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `npm run dev`                                              | server (tsx watch) + web (next dev)                                                       |
+| `npm run build` / `npm start`                              | production builds                                                                         |
+| `npm test`                                                 | unit + integration tests (Vitest; server tests use real sockets)                          |
+| `npm run test:e2e`                                         | Playwright, 3 browser contexts (`npx playwright install chromium` once)                   |
+| `npm run lint` / `npm run typecheck`                       | ESLint (strict TS) / tsc                                                                  |
+| `npm run bench`                                            | all scenarios S1-S9 against a spawned server, writes `bench/results/` + `docs/LATENCY.md` |
+| `npm run bench -- --scenario S2 --users 25 --duration 300` | one scenario, longer                                                                      |
+| `npm run bench -- --url http://<ip>:4000 --scenario S1`    | against a running server (LAN)                                                            |
+| `npm run bench -- --ci`                                    | CI gate: 10 users, 60 s, fails if p95 > 250 ms                                            |
+| `npm run seed`                                             | load the catalog into Postgres (`DATABASE_URL` required)                                  |
+| `npm run catalog:generate`                                 | regenerate `catalog.json`                                                                 |
 
 ## Configuration
 
 Copy `.env.example` to `.env` (all optional in development).
 
-| Variable | Default | |
-| --- | --- | --- |
-| `PORT_SERVER` | 4000 | realtime + REST port |
-| `JWT_SECRET` | dev secret | **required** in production |
-| `CORS_ORIGIN` | (empty = any) | comma-separated web origins; also enforced for WebSocket upgrades |
-| `DATABASE_URL` | - | PostgreSQL 16 (durable history) |
-| `REDIS_URL` | - | Redis 7 (room snapshots, presence); falls back to `.data/` files |
-| `TMDB_API_KEY` | - | merge TMDB popular/top-rated movies + artwork into the catalog |
-| `ROOM_MAX_USERS` | 50 | |
-| `CHAOS_ENABLED` | true | host-only demo tools |
-| `NEXT_PUBLIC_WS_URL` | (page host:4000) | where browsers reach the server |
+| Variable             | Default          |                                                                   |
+| -------------------- | ---------------- | ----------------------------------------------------------------- |
+| `PORT_SERVER`        | 4000             | realtime + REST port                                              |
+| `JWT_SECRET`         | dev secret       | **required** in production                                        |
+| `CORS_ORIGIN`        | (empty = any)    | comma-separated web origins; also enforced for WebSocket upgrades |
+| `DATABASE_URL`       | -                | PostgreSQL 16 (durable history)                                   |
+| `REDIS_URL`          | -                | Redis 7 (room snapshots, presence); falls back to `.data/` files  |
+| `TMDB_API_KEY`       | -                | merge TMDB popular/top-rated movies + artwork into the catalog    |
+| `ROOM_MAX_USERS`     | 50               |                                                                   |
+| `CHAOS_ENABLED`      | true             | host-only demo tools                                              |
+| `NEXT_PUBLIC_WS_URL` | (page host:4000) | where browsers reach the server                                   |
 
 ## Project layout
 
