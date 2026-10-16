@@ -16,3 +16,4 @@ bench/results/*
 *.tsbuildinfo
 next-env.d.ts
 assets/source/
+*.txt
