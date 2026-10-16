@@ -1,0 +1,15 @@
+# Not needed to build apps/web on Vercel (and never upload secrets or local data).
+.env
+.env.*
+!.env.example
+.data
+assets/source
+**/node_modules
+**/.next
+**/dist
+**/coverage
+apps/web/test-results
+apps/web/playwright-report
+bench/results/20*
+*.txt
+*.log

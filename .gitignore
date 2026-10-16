@@ -17,3 +17,7 @@ bench/results/*
 next-env.d.ts
 assets/source/
 *.txt
+
+.vercel
+.env*
+!.env.example
