@@ -1,0 +1,85 @@
+/* Frosted glass surfaces (PRD 4.3). */
+
+.glass {
+  position: relative;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.03)),
+    var(--glass-tint),
+    var(--glass-scrim);
+  -webkit-backdrop-filter: blur(var(--blur)) saturate(140%);
+  backdrop-filter: blur(var(--blur)) saturate(140%);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    var(--glass-shadow),
+    inset 1px 1px 0 var(--glass-highlight),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.05);
+  color: rgb(var(--text-hi));
+}
+
+.glass-sm {
+  -webkit-backdrop-filter: blur(var(--blur-sm)) saturate(140%);
+  backdrop-filter: blur(var(--blur-sm)) saturate(140%);
+}
+
+.glass-lg {
+  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(150%);
+  backdrop-filter: blur(var(--blur-lg)) saturate(150%);
+}
+
+.glass-strong {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05)),
+    var(--glass-tint),
+    var(--glass-scrim),
+    var(--glass-scrim);
+}
+
+/* Cursor-following spotlight (ref 2 bloom). --mx/--my are set on pointermove. */
+.glass-spot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgb(var(--teal-400) / 0.16), transparent 70%);
+  border-radius: inherit;
+  clip-path: inherit;
+}
+.glass-spot:hover::after {
+  opacity: 1;
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass,
+  .glass-sm,
+  .glass-lg {
+    background: var(--glass-fallback);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-sm,
+  .glass-lg {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: var(--glass-fallback);
+  }
+}
+
+[data-transparency='reduced'] .glass,
+[data-transparency='reduced'] .glass-sm,
+[data-transparency='reduced'] .glass-lg {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  background: var(--glass-fallback);
+}
+
+/* Light blue -> sky gradient headline text (ref 3). */
+.text-gradient {
+  background: linear-gradient(100deg, rgb(var(--ice)), rgb(var(--sky)) 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

@@ -1,0 +1,43 @@
+# syntax=docker/dockerfile:1
+# BlockParty realtime/API server (Fastify + Socket.IO + Prisma)
+
+FROM node:20-bookworm-slim AS base
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends openssl ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
+WORKDIR /repo
+ENV HUSKY=0 NEXT_TELEMETRY_DISABLED=1
+
+FROM base AS deps
+COPY package.json package-lock.json ./
+COPY packages/shared/package.json packages/shared/
+COPY apps/server/package.json apps/server/
+COPY apps/web/package.json apps/web/
+COPY bench/package.json bench/
+RUN npm ci --ignore-scripts --no-audit --no-fund
+
+FROM deps AS build
+COPY tsconfig.base.json ./
+COPY prisma prisma
+COPY packages/shared packages/shared
+COPY apps/server apps/server
+RUN npx prisma generate --schema prisma/schema.prisma \
+  && npm run build -w @blockparty/server
+
+FROM base AS runtime
+ENV NODE_ENV=production PORT_SERVER=4000 HOST=0.0.0.0
+COPY --from=build /repo/package.json ./package.json
+COPY --from=build /repo/node_modules ./node_modules
+COPY --from=build /repo/prisma ./prisma
+COPY --from=build /repo/apps/server/package.json ./apps/server/package.json
+COPY --from=build /repo/apps/server/dist ./apps/server/dist
+COPY --from=build /repo/apps/server/data ./apps/server/data
+# Latest benchmark results, served at /api/bench/latest and the /bench page.
+COPY bench/results/latest.json ./bench/results/latest.json
+COPY docker/server-entrypoint.sh /usr/local/bin/server-entrypoint.sh
+RUN chmod +x /usr/local/bin/server-entrypoint.sh && mkdir -p /repo/.data && chown -R node:node /repo/.data
+USER node
+EXPOSE 4000
+HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=5 \
+  CMD node -e "fetch('http://127.0.0.1:4000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+CMD ["server-entrypoint.sh"]

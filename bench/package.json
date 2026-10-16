@@ -1,0 +1,13 @@
+{
+  "name": "@blockparty/bench",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@blockparty/shared": "*",
+    "socket.io-client": "^4.8.1"
+  }
+}

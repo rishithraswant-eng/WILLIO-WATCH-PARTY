@@ -1,0 +1,225 @@
+// BlockParty durable data model (PRD section 9).
+// The realtime hot path never waits on these tables: the server keeps room state in memory
+// and writes here asynchronously through a batched write-behind queue (apps/server/src/db).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  HOST
+  MOD
+  VIEWER
+}
+
+enum ControlMode {
+  HOST_ONLY
+  EVERYONE
+  VOTE
+}
+
+enum WaitPolicy {
+  WAIT_FOR_ALL
+  NEVER_WAIT
+}
+
+enum PollType {
+  GENERIC
+  NEXT_MOVIE
+  SKIP_TO
+  PAUSE_BREAK
+  CONTROL
+}
+
+enum PollStatus {
+  OPEN
+  CLOSED
+}
+
+enum StreamType {
+  MP4
+  HLS
+  YOUTUBE
+}
+
+model Room {
+  id             String        @id @default(cuid())
+  code           String        @unique @db.VarChar(6)
+  name           String
+  passwordHash   String?
+  hostUserId     String?
+  hostEpoch      Int           @default(0)
+  controlMode    ControlMode   @default(HOST_ONLY)
+  waitPolicy     WaitPolicy    @default(WAIT_FOR_ALL)
+  maxUsers       Int           @default(50)
+  currentMediaId String?
+  createdAt      DateTime      @default(now())
+  lastActiveAt   DateTime      @default(now())
+  closedAt       DateTime?
+  participants   Participant[]
+  messages       Message[]
+  queue          QueueItem[]
+  polls          Poll[]
+
+  @@index([lastActiveAt])
+}
+
+model User {
+  id           String        @id
+  name         String
+  avatarSeed   String
+  tasteVector  Json?
+  createdAt    DateTime      @default(now())
+  participants Participant[]
+}
+
+model Participant {
+  id       String    @id @default(cuid())
+  roomId   String
+  userId   String
+  role     Role      @default(VIEWER)
+  joinedAt DateTime  @default(now())
+  leftAt   DateTime?
+  room     Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  user     User      @relation(fields: [userId], references: [id])
+
+  @@unique([roomId, userId])
+}
+
+model Movie {
+  id            String      @id
+  title         String
+  originalTitle String?
+  overview      String
+  year          Int
+  runtimeMin    Int
+  rating        Float
+  popularity    Float
+  language      String
+  genres        String[]
+  keywords      String[]
+  cast          String[]
+  posterUrl     String?
+  backdropUrl   String?
+  trailerUrl    String?
+  streamUrl     String?
+  streamType    StreamType?
+  isFree        Boolean     @default(false)
+  moods         String[]
+
+  @@index([title])
+  @@index([year])
+  @@index([rating])
+}
+
+model QueueItem {
+  id        String    @id
+  roomId    String
+  movieId   String?
+  customUrl String?
+  title     String
+  addedById String
+  position  String
+  votes     Int       @default(0)
+  playedAt  DateTime?
+  createdAt DateTime  @default(now())
+  room      Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, position])
+}
+
+model QueueVote {
+  queueItemId String
+  userId      String
+
+  @@id([queueItemId, userId])
+}
+
+model Message {
+  id        String   @id
+  roomId    String
+  userId    String?
+  text      String   @db.VarChar(600)
+  videoTs   Float?
+  system    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+  @@index([roomId, createdAt])
+}
+
+model Reaction {
+  id        BigInt   @id @default(autoincrement())
+  roomId    String
+  userId    String
+  mediaId   String
+  emoji     String
+  videoTs   Float
+  createdAt DateTime @default(now())
+
+  @@index([mediaId, videoTs])
+  @@index([roomId])
+}
+
+model Poll {
+  id        String     @id
+  roomId    String
+  creatorId String?
+  question  String
+  type      PollType   @default(GENERIC)
+  options   Json
+  anonymous Boolean    @default(false)
+  endsAt    DateTime
+  status    PollStatus @default(OPEN)
+  result    Json?
+  room      Room       @relation(fields: [roomId], references: [id], onDelete: Cascade)
+}
+
+model PollVote {
+  pollId    String
+  userId    String
+  optionId  String
+  createdAt DateTime @default(now())
+
+  @@id([pollId, userId])
+}
+
+model SyncSample {
+  id       BigInt   @id @default(autoincrement())
+  roomId   String
+  userId   String
+  ts       DateTime @default(now())
+  rttMs    Float
+  offsetMs Float
+  driftMs  Float
+  mode     String
+
+  @@index([roomId, ts])
+}
+
+model PropagationSample {
+  id     BigInt   @id @default(autoincrement())
+  roomId String
+  seq    Int
+  action String
+  users  Int
+  p50    Float
+  p95    Float
+  max    Float
+  ts     DateTime @default(now())
+}
+
+model BenchRun {
+  id         String   @id @default(cuid())
+  scenario   String
+  users      Int
+  durationS  Int
+  conditions Json
+  results    Json
+  createdAt  DateTime @default(now())
+}

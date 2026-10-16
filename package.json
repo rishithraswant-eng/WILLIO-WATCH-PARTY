@@ -1,0 +1,52 @@
+{
+  "name": "blockparty",
+  "version": "1.0.0",
+  "private": true,
+  "description": "BlockParty - real-time synchronized watch parties. Same world. Same frame.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.10"
+  },
+  "workspaces": [
+    "packages/*",
+    "apps/*",
+    "bench"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n server,web -c cyan,magenta \"npm:dev:server\" \"npm:dev:web\"",
+    "dev:server": "npm run dev -w @blockparty/server",
+    "dev:web": "npm run dev -w @blockparty/web",
+    "build": "npm run build -w @blockparty/server && npm run build -w @blockparty/web",
+    "start": "concurrently -k -n server,web -c cyan,magenta \"npm:start -w @blockparty/server\" \"npm:start -w @blockparty/web\"",
+    "lint": "eslint \"packages/**/*.ts\" \"apps/server/**/*.ts\" \"bench/**/*.ts\" --max-warnings=0 && npm run lint -w @blockparty/web",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:e2e": "npm run test:e2e -w @blockparty/web",
+    "bench": "tsx bench/src/cli.ts",
+    "bench:report": "tsx bench/src/report.ts",
+    "seed": "npm run seed -w @blockparty/server",
+    "catalog:generate": "npm run catalog:generate -w @blockparty/server",
+    "db:migrate": "prisma migrate deploy --schema prisma/schema.prisma",
+    "db:generate": "prisma generate --schema prisma/schema.prisma",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "postinstall": "prisma generate --schema prisma/schema.prisma",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,cjs,mjs,json,css,md}": "prettier --write"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "@typescript-eslint/eslint-plugin": "^8.46.0",
+    "@typescript-eslint/parser": "^8.46.0",
+    "concurrently": "^9.2.5",
+    "eslint": "^8.57.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.6.2",
+    "prisma": "^6.19.3",
+    "tsx": "^4.20.6",
+    "typescript": "~5.9.3"
+  }
+}

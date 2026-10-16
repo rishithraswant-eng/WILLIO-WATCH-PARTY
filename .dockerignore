@@ -1,0 +1,15 @@
+**/node_modules
+**/.next
+**/dist
+**/coverage
+.git
+.data
+.husky
+.env
+.env.*
+apps/web/test-results
+apps/web/playwright-report
+bench/results/20*
+docs
+*.log
+*.txt

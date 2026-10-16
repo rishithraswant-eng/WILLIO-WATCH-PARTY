@@ -1,0 +1,76 @@
+/* Pixel Glass design tokens. Colours are "R G B" triplets (see tailwind.config.ts). */
+
+:root,
+[data-theme='dark'] {
+  /* Swamp Night */
+  --bg-0: 4 16 14; /* #04100e */
+  --bg-1: 8 32 25; /* #082019 */
+  --bg-2: 12 58 51; /* #0c3a33 */
+  --teal-400: 46 230 197; /* #2ee6c5 */
+  --teal-500: 25 195 166; /* #19c3a6 */
+  --emerald: 61 220 132; /* #3ddc84 */
+  --moss: 123 191 47; /* #7bbf2f */
+  --lantern: 255 207 92; /* #ffcf5c */
+  --ember: 255 138 61; /* #ff8a3d */
+  --wood: 91 59 36; /* #5b3b24 */
+  --ice: 159 232 255; /* #9fe8ff */
+  --sky: 90 180 255; /* #5ab4ff */
+  --text-hi: 234 255 249; /* #eafff9 */
+  --text-mid: 168 207 198; /* #a8cfc6 */
+  --text-lo: 108 143 136; /* #6c8f88 */
+  --danger: 255 93 108;
+  --warn: 255 184 77;
+  --ok: 75 226 138;
+  --ink: 4 16 14;
+
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-bg-strong: rgba(255, 255, 255, 0.1);
+  --glass-tint: rgba(25, 195, 166, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.16);
+  --glass-highlight: rgba(255, 255, 255, 0.28);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  --glass-scrim: rgba(4, 16, 14, 0.42);
+  --glass-fallback: rgba(8, 32, 25, 0.88);
+  --blur: 18px;
+  --blur-sm: 10px;
+  --blur-lg: 28px;
+  --focus: rgb(var(--lantern));
+  --world-filter: saturate(1); /* identity, composable with blur() */
+  --world-mist: transparent;
+  color-scheme: dark;
+}
+
+[data-theme='light'] {
+  /* Misty Dawn */
+  --bg-0: 217 255 243; /* #d9fff3 */
+  --bg-1: 191 233 255; /* #bfe9ff */
+  --bg-2: 166 214 222;
+  --teal-400: 13 150 128;
+  --teal-500: 8 128 108;
+  --emerald: 22 150 80;
+  --moss: 84 140 20;
+  --lantern: 196 128 0;
+  --ember: 214 96 20;
+  --wood: 110 72 44;
+  --ice: 10 110 150;
+  --sky: 20 90 190;
+  --text-hi: 8 53 45; /* #08352d */
+  --text-mid: 34 86 76;
+  --text-lo: 72 116 108;
+  --danger: 200 30 50;
+  --warn: 176 104 0;
+  --ok: 18 140 70;
+  --ink: 240 255 250;
+
+  --glass-bg: rgba(255, 255, 255, 0.45);
+  --glass-bg-strong: rgba(255, 255, 255, 0.6);
+  --glass-tint: rgba(13, 150, 128, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.7);
+  --glass-highlight: rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 10px 40px rgba(8, 53, 45, 0.18);
+  --glass-scrim: rgba(255, 255, 255, 0.35);
+  --glass-fallback: rgba(240, 255, 250, 0.92);
+  --world-filter: hue-rotate(-12deg) saturate(0.55) brightness(1.9) contrast(0.8);
+  --world-mist: linear-gradient(180deg, rgba(217, 255, 243, 0.55), rgba(191, 233, 255, 0.35) 60%, rgba(217, 255, 243, 0.6));
+  color-scheme: light;
+}

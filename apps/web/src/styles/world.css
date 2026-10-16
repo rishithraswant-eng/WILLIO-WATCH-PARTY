@@ -1,0 +1,26 @@
+/* World background + reaction particle animations (static CSS: no inline <style> hydration issues). */
+
+.world { transition: opacity 400ms ease-out, filter 400ms ease-out; filter: var(--world-filter); }
+[data-world='dim'] .world { opacity: 0.35; filter: var(--world-filter) blur(6px); }
+.world-layer { transform: translate3d(calc(var(--px, 0) * var(--depth) * -1px), calc(var(--py, 0) * var(--depth) * -0.6px), 0); transition: transform 600ms cubic-bezier(0.16,1,0.3,1); }
+.world-scene { animation: world-in 700ms ease-out both; }
+@keyframes world-in { from { opacity: 0 } to { opacity: 1 } }
+.world-scene > svg:nth-child(2) { animation: world-sway 9s ease-in-out infinite; }
+.world-ray { background: linear-gradient(180deg, rgba(46,230,197,0.22), rgba(46,230,197,0.05) 55%, transparent); transform: skewX(-18deg); filter: blur(10px); mix-blend-mode: screen; animation: ray-pulse 7s ease-in-out infinite; }
+.lantern-glow { animation: lantern-flicker 3.2s steps(6) infinite; }
+@keyframes ray-pulse { 0%,100% { opacity: 0.35 } 50% { opacity: 0.85 } }
+@keyframes world-sway { 0%,100% { translate: 0 0 } 50% { translate: 2px 0 } }
+@keyframes lantern-flicker { 0%,100% { opacity: 1 } 40% { opacity: 0.82 } 70% { opacity: 0.95 } }
+@media (prefers-reduced-motion: reduce) { .world-layer, .world-scene > svg, .world-ray, .lantern-glow { animation: none !important; transition: none !important; } }
+
+.reaction-drop { animation: item-drop 1.7s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+@keyframes item-drop {
+  0% { transform: translate(0, 20px) scale(0.2); opacity: 0; }
+  12% { transform: translate(calc(var(--drift) * 0.2), -30px) scale(var(--s)); opacity: 1; }
+  30% { transform: translate(calc(var(--drift) * 0.4), -60px) scale(var(--s)); }
+  45% { transform: translate(calc(var(--drift) * 0.5), -52px) scale(var(--s)); }
+  100% { transform: translate(var(--drift), -190px) scale(calc(var(--s) * 0.8)); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  @keyframes item-drop { 0% { opacity: 0 } 20% { opacity: 1 } 100% { opacity: 0 } }
+}

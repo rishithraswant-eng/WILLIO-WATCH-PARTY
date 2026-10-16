@@ -1,0 +1,17 @@
+node_modules/
+.next/
+dist/
+coverage/
+.data/
+*.log
+.env
+.env.local
+.DS_Store
+apps/web/test-results/
+apps/web/playwright-report/
+bench/results/*
+!bench/results/latest.json
+!bench/results/latest/
+!bench/results/latest/**
+*.tsbuildinfo
+next-env.d.ts
