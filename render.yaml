@@ -1,0 +1,31 @@
+# Render Blueprint for the Willio realtime/API server (Fastify + Socket.IO).
+# Room state lives in memory, so this must stay a single instance (no autoscaling).
+# The web app (apps/web) is deployed separately on Vercel.
+services:
+  - type: web
+    name: willio-server
+    runtime: docker
+    dockerfilePath: ./Dockerfile.server
+    dockerContext: .
+    plan: free
+    numInstances: 1
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      # Signs guest session tokens. Paste a long random string in the dashboard.
+      - key: JWT_SECRET
+        sync: false
+      # Comma-separated allowed web origins, e.g. https://willio.vercel.app (no trailing slash).
+      - key: CORS_ORIGIN
+        sync: false
+      - key: ROOM_MAX_USERS
+        value: '50'
+      - key: CHAOS_ENABLED
+        value: 'true'
+      # No Postgres/Redis on this deployment: rooms run in memory (snapshots on the container's disk).
+      - key: SNAPSHOT_STORE
+        value: file

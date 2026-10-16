@@ -25,6 +25,7 @@ RUN npx prisma generate --schema prisma/schema.prisma \
   && npm run build -w @willio/server
 
 FROM base AS runtime
+# Render (and similar hosts) inject PORT, which takes precedence over PORT_SERVER.
 ENV NODE_ENV=production PORT_SERVER=4000 HOST=0.0.0.0
 COPY --from=build /repo/package.json ./package.json
 COPY --from=build /repo/node_modules ./node_modules
@@ -39,5 +40,5 @@ RUN chmod +x /usr/local/bin/server-entrypoint.sh && mkdir -p /repo/.data && chow
 USER node
 EXPOSE 4000
 HEALTHCHECK --interval=10s --timeout=3s --start-period=20s --retries=5 \
-  CMD node -e "fetch('http://127.0.0.1:4000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+  CMD node -e "fetch('http://127.0.0.1:'+(process.env.PORT||process.env.PORT_SERVER||4000)+'/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 CMD ["server-entrypoint.sh"]

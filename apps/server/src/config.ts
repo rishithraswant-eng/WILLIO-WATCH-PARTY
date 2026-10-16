@@ -21,6 +21,8 @@ const optionalStr = z
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  /** Injected by hosts such as Render; wins over PORT_SERVER. */
+  PORT: z.coerce.number().int().min(0).max(65535).optional(),
   PORT_SERVER: z.coerce.number().int().min(0).max(65535).default(4000),
   HOST: z.string().default('0.0.0.0'),
   JWT_SECRET: optionalStr,
@@ -53,12 +55,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env) {
   }
   const corsOrigins = (e.CORS_ORIGIN ?? '')
     .split(',')
-    .map((s) => s.trim())
+    .map((s) => s.trim().replace(/\/+$/, ''))
     .filter(Boolean);
   return {
     env: e.NODE_ENV,
     isProd: e.NODE_ENV === 'production',
-    port: e.PORT_SERVER,
+    port: e.PORT ?? e.PORT_SERVER,
     host: e.HOST,
     jwtSecret: e.JWT_SECRET ?? DEV_SECRET,
     usingDevSecret: !e.JWT_SECRET,
