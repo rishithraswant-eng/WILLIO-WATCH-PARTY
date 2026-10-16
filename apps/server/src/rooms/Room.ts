@@ -62,7 +62,7 @@ import {
   type ChaosType,
   type HostChangeReason,
   type ControlMode,
-} from '@blockparty/shared';
+} from '@willio/shared';
 import { EventLog, LruMap } from '../util/collections';
 import { findMentions, parseSlash, sanitizeChat, sanitizeLine } from '../util/text';
 import { PropagationTracker } from './metrics';

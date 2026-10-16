@@ -1,4 +1,4 @@
-import { seededRandom } from '@blockparty/shared';
+import { seededRandom } from '@willio/shared';
 
 /**
  * Procedural voxel swamp (deterministic). Units are "blocks" in a 192x108 scene.

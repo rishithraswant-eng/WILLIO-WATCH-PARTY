@@ -1,4 +1,4 @@
-import { LIMITS } from '@blockparty/shared';
+import { LIMITS } from '@willio/shared';
 import type { DurableStore } from '../db/durable';
 import type { KvStore } from '../db/kv';
 

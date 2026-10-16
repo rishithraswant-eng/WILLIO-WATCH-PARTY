@@ -1,4 +1,4 @@
-# BlockParty - Same world. Same frame.
+# Willio - Same world. Same frame.
 
 Real-time synchronized watch parties. Up to 25+ people join a room by link or 6-character code and watch one video
 in frame-accurate sync, while they discover what to watch (fuzzy search, filters, moods, a **Group Taste Fusion**
@@ -31,6 +31,7 @@ keeps them.
 
 ```bash
 docker compose up --build    # web :3000, server :4000, postgres, redis (all with healthchecks)
+WEB_PORT=3001 docker compose up --build   # if port 3000 is already taken
 ```
 
 Migrations run on server boot and the Movie table is seeded from `apps/server/data/catalog.json` on first start.

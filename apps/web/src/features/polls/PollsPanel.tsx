@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
-import { LIMITS, canClosePoll, formatTime, type Poll, type PollType, type Recommendation } from '@blockparty/shared';
+import { LIMITS, canClosePoll, formatTime, type Poll, type PollType, type Recommendation } from '@willio/shared';
 import { Badge } from '@/components/ui/Bits';
 import { GlassButton, IconButton } from '@/components/ui/Glass';
 import { Input, Select, Slider, Switch } from '@/components/ui/Form';

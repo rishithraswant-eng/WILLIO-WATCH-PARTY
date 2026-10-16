@@ -23,6 +23,6 @@ async function main(): Promise<void> {
 }
 
 main().catch((err: unknown) => {
-  console.error('Failed to start BlockParty server:', err);
+  console.error('Failed to start Willio server:', err);
   process.exit(1);
 });

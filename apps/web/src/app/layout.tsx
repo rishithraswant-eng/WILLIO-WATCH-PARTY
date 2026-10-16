@@ -13,10 +13,10 @@ const plex = IBM_Plex_Sans({ weight: ['400', '500', '600'], subsets: ['latin'], 
 const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: { default: 'BlockParty - Same world. Same frame.', template: '%s - BlockParty' },
+  title: { default: 'Willio - Same world. Same frame.', template: '%s - Willio' },
   description:
     'Real-time synchronized watch parties: frame-accurate sync, live chat, reactions, polls, shared queue and a Group Taste Fusion recommender.',
-  applicationName: 'BlockParty',
+  applicationName: 'Willio',
 };
 
 export const viewport: Viewport = {

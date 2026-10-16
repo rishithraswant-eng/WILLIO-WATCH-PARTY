@@ -1,5 +1,5 @@
 {
-  "name": "@blockparty/server",
+  "name": "@willio/server",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -14,7 +14,7 @@
     "catalog:generate": "tsx scripts/generate-catalog.ts"
   },
   "dependencies": {
-    "@blockparty/shared": "*",
+    "@willio/shared": "*",
     "@fastify/cors": "^11.1.0",
     "@fastify/helmet": "^13.0.2",
     "@prisma/client": "^6.19.3",

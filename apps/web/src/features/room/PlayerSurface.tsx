@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import type { MediaSource } from '@blockparty/shared';
+import type { MediaSource } from '@willio/shared';
 import { Html5Adapter } from '@/lib/player/html5';
 import type { PlayerAdapter } from '@/lib/player/types';
 import { YouTubeAdapter } from '@/lib/player/youtube';

@@ -1,5 +1,5 @@
 import { randomInt } from 'node:crypto';
-import { LIMITS, ROOM_CODE_ALPHABET, ROOM_CODE_LENGTH } from '@blockparty/shared';
+import { LIMITS, ROOM_CODE_ALPHABET, ROOM_CODE_LENGTH } from '@willio/shared';
 
 /** Cryptographically random, unambiguous 6-char room code. */
 export function generateRoomCode(): string {

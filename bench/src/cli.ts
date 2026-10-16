@@ -1,5 +1,5 @@
 /**
- * BlockParty benchmark harness.
+ * Willio benchmark harness.
  *   npm run bench                                  # all scenarios (S1-S9), spawned server
  *   npm run bench -- --scenario S1 --users 10 --duration 300
  *   npm run bench -- --ci                          # S1, 10 users, 60s; exit 1 if p95 > 250ms
@@ -8,7 +8,7 @@
 import { cpus, hostname, release, totalmem, type, arch } from 'node:os';
 import { mkdir, writeFile, copyFile, rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import { summarize } from '@blockparty/shared';
+import { summarize } from '@willio/shared';
 import { finalize, Recorder, SCENARIOS, type ScenarioResult } from './scenarios';
 import { REPO_ROOT, ServerProcess } from './serverProc';
 import { driftSvg, histogramSvg } from './svg';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { REACTION_EMOJIS, type ReactionBurst } from '@blockparty/shared';
+import { REACTION_EMOJIS, type ReactionBurst } from '@willio/shared';
 import { cx, isTypingTarget } from '@/lib/util';
 import { useRoomClient } from './context';
 

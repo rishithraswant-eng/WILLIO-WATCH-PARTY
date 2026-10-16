@@ -12,7 +12,7 @@ import {
 import { SortableContext, arrayMove, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useEffect, useState, type FormEvent } from 'react';
-import { LIMITS, canManageQueue, canRemoveQueueItem, playbackPermission, type QueueItem } from '@blockparty/shared';
+import { LIMITS, canManageQueue, canRemoveQueueItem, playbackPermission, type QueueItem } from '@willio/shared';
 import { Badge } from '@/components/ui/Bits';
 import { GlassButton, IconButton } from '@/components/ui/Glass';
 import { Input } from '@/components/ui/Form';

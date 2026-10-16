@@ -1,5 +1,5 @@
 import type { FastifyBaseLogger } from 'fastify';
-import { deriveMoods, type Movie } from '@blockparty/shared';
+import { deriveMoods, type Movie } from '@willio/shared';
 
 /** Optional TMDB sync: pulls popular + top rated movies and maps them to the catalog shape. */
 

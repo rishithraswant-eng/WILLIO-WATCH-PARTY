@@ -1,5 +1,5 @@
 import type { FastifyBaseLogger } from 'fastify';
-import type { DriftMode, ErrorCode, GroupMember, Recommendation, Role, TasteVector } from '@blockparty/shared';
+import type { DriftMode, ErrorCode, GroupMember, Recommendation, Role, TasteVector } from '@willio/shared';
 import type { Catalog } from '../catalog/catalog';
 import type { DurableStore } from '../db/durable';
 import type { HeatStore } from '../services/heat';

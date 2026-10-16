@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useContext } from 'react';
-import { playbackPermission, type ControlDecision } from '@blockparty/shared';
+import { playbackPermission, type ControlDecision } from '@willio/shared';
 import type { RoomClient } from '@/lib/roomClient';
 import { selectMyRole, useRoom } from '@/store/room';
 

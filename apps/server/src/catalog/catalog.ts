@@ -10,7 +10,7 @@ import {
   type MovieFilters,
   type MovieQuery,
   type MovieSort,
-} from '@blockparty/shared';
+} from '@willio/shared';
 
 export interface SearchResult {
   items: Movie[];

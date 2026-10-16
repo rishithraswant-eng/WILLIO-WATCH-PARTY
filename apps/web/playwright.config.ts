@@ -22,7 +22,7 @@ export default defineConfig({
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: [
     {
-      command: prod ? 'npm start -w @blockparty/server' : 'npm run dev:server',
+      command: prod ? 'npm start -w @willio/server' : 'npm run dev:server',
       cwd: '../..',
       url: 'http://localhost:4000/api/health',
       reuseExistingServer: true,
@@ -30,7 +30,7 @@ export default defineConfig({
       env: { RATE_LIMIT_REST: 'false' },
     },
     {
-      command: prod ? 'npm start -w @blockparty/web' : 'npm run dev:web',
+      command: prod ? 'npm start -w @willio/web' : 'npm run dev:web',
       cwd: '../..',
       url: 'http://localhost:3000',
       reuseExistingServer: true,

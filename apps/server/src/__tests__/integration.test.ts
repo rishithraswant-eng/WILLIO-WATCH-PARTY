@@ -9,7 +9,7 @@ import {
   type JoinAck,
   type Snapshot,
   type StateUpdate,
-} from '@blockparty/shared';
+} from '@willio/shared';
 import { loadConfig } from '../config';
 import { MemoryKv } from '../db/kv';
 import { createServer, type RunningServer } from '../server';

@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# BlockParty realtime/API server (Fastify + Socket.IO + Prisma)
+# Willio realtime/API server (Fastify + Socket.IO + Prisma)
 
 FROM node:20-bookworm-slim AS base
 RUN apt-get update \
@@ -22,7 +22,7 @@ COPY prisma prisma
 COPY packages/shared packages/shared
 COPY apps/server apps/server
 RUN npx prisma generate --schema prisma/schema.prisma \
-  && npm run build -w @blockparty/server
+  && npm run build -w @willio/server
 
 FROM base AS runtime
 ENV NODE_ENV=production PORT_SERVER=4000 HOST=0.0.0.0

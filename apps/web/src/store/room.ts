@@ -12,7 +12,7 @@ import type {
   Role,
   RoomInfo,
   SyncMetrics,
-} from '@blockparty/shared';
+} from '@willio/shared';
 
 export type Phase = 'idle' | 'connecting' | 'clock' | 'joining' | 'live' | 'offline' | 'replaced' | 'error';
 export type SyncBadge = 'IN_SYNC' | 'ADJUSTING' | 'RESYNCING' | 'PAUSED' | 'LOADING' | 'OFFLINE';

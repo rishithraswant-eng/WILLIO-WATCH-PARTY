@@ -1,4 +1,4 @@
-import type { MediaSource, PlayerLike } from '@blockparty/shared';
+import type { MediaSource, PlayerLike } from '@willio/shared';
 
 export type PlayerEvent = 'ready' | 'waiting' | 'playing' | 'pause' | 'seeked' | 'ended' | 'duration' | 'error' | 'progress';
 

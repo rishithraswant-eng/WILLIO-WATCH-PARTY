@@ -1,4 +1,4 @@
-import { histogram, summarize, type Summary } from '@blockparty/shared';
+import { histogram, summarize, type Summary } from '@willio/shared';
 import { Bot, type DriftSample, type PropSample } from './bot';
 import type { ServerProcess } from './serverProc';
 

@@ -4,7 +4,7 @@
  */
 import { readFile } from 'node:fs/promises';
 import type { PrismaClient } from '@prisma/client';
-import type { Movie } from '@blockparty/shared';
+import type { Movie } from '@willio/shared';
 import { loadConfig } from '../config';
 
 async function main(): Promise<void> {

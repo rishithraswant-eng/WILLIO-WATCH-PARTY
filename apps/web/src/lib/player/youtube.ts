@@ -1,4 +1,4 @@
-import { youtubeId, type MediaSource } from '@blockparty/shared';
+import { youtubeId, type MediaSource } from '@willio/shared';
 import { Emitter, type PlayerAdapter, type PlayerEvent } from './types';
 
 /* Minimal typings for the YouTube IFrame API (avoids an extra @types package). */

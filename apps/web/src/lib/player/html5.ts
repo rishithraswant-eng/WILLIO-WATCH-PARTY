@@ -1,4 +1,4 @@
-import type { MediaSource } from '@blockparty/shared';
+import type { MediaSource } from '@willio/shared';
 import { Emitter, type PlayerAdapter, type PlayerEvent } from './types';
 
 type HlsInstance = import('hls.js').default;

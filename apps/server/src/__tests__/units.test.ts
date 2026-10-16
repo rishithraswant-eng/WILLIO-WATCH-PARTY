@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { EventLog, LruMap, RollingWindow } from '../util/collections';
 import { RateLimiter } from '../util/rateLimiter';
 import { findMentions, generateRoomCode, parseSlash, sanitizeChat } from '../util/text';
-import { ROOM_CODE_REGEX } from '@blockparty/shared';
+import { ROOM_CODE_REGEX } from '@willio/shared';
 
 describe('EventLog (ring buffer replay)', () => {
   const fill = (n: number, cap: number) => {

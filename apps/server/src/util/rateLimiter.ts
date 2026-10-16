@@ -1,4 +1,4 @@
-import { RATE_LIMITS, type RateLimitKey } from '@blockparty/shared';
+import { RATE_LIMITS, type RateLimitKey } from '@willio/shared';
 
 interface Window {
   count: number;

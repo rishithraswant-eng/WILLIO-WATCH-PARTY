@@ -29,7 +29,7 @@ import {
   type TasteVector,
   type ToastPayload,
   type WithEseq,
-} from '@blockparty/shared';
+} from '@willio/shared';
 import { useRoom, type SyncBadge } from '@/store/room';
 import { usePrefs } from '@/store/prefs';
 import { toast, useToasts } from '@/store/toasts';

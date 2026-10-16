@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { ToastKind } from '@blockparty/shared';
+import type { ToastKind } from '@willio/shared';
 
 export interface Toast {
   id: number;

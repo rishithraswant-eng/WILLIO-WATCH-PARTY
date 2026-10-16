@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, type ClipboardEvent, type KeyboardEvent } from 'react';
-import { DEMO_ROOM_CODE, ROOM_CODE_ALPHABET, ROOM_CODE_LENGTH } from '@blockparty/shared';
+import { DEMO_ROOM_CODE, ROOM_CODE_ALPHABET, ROOM_CODE_LENGTH } from '@willio/shared';
 import { cx } from '@/lib/util';
 
 // 'O' only appears in the reserved demo code; the per-box filter lets it through so DEMO42 can be typed.

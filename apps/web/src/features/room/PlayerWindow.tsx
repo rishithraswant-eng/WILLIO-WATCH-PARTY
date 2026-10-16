@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { PLAYBACK_RATES, canChangeRate, formatTime, type Intermission } from '@blockparty/shared';
+import { PLAYBACK_RATES, canChangeRate, formatTime, type Intermission } from '@willio/shared';
 import { GlassButton, GlassPanel, IconButton } from '@/components/ui/Glass';
 import { ProgressBar } from '@/components/ui/Bits';
 import { PixelIcon } from '@/components/ui/PixelIcon';

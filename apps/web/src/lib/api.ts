@@ -1,4 +1,4 @@
-import type { ControlMode, ErrorCode, Movie, Recommendation, RoomInfo, TasteVector } from '@blockparty/shared';
+import type { ControlMode, ErrorCode, Movie, Recommendation, RoomInfo, TasteVector } from '@willio/shared';
 import { serverUrl } from './config';
 
 export class ApiError extends Error {
@@ -22,7 +22,7 @@ async function request<T>(path: string, init?: RequestInit & { timeoutMs?: numbe
       headers: { 'content-type': 'application/json', ...(init?.headers ?? {}) },
     });
   } catch {
-    throw new ApiError('NETWORK', "Can't reach the BlockParty server - is it running on port 4000?", 0);
+    throw new ApiError('NETWORK', "Can't reach the Willio server - is it running on port 4000?", 0);
   } finally {
     clearTimeout(timer);
   }

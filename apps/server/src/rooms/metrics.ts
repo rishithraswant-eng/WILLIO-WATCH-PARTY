@@ -1,4 +1,4 @@
-import { SYNC, percentile, type PlaybackCause } from '@blockparty/shared';
+import { SYNC, percentile, type PlaybackCause } from '@willio/shared';
 import { RollingWindow } from '../util/collections';
 
 interface SentInfo {

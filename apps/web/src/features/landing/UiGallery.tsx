@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type ReactNode } from 'react';
-import { REACTION_EMOJIS } from '@blockparty/shared';
+import { REACTION_EMOJIS } from '@willio/shared';
 import { TopBar } from '@/components/TopBar';
 import { ArcGauge, Avatar, Badge, Chip, Hearts, Kbd, ProgressBar, Skeleton, Sparkline, Tooltip } from '@/components/ui/Bits';
 import { GlassButton, GlassPanel, IconButton } from '@/components/ui/Glass';

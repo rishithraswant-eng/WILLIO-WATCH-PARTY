@@ -2,7 +2,7 @@
 
 import Fuse, { type FuseResult } from 'fuse.js';
 import { useEffect, useState } from 'react';
-import { FUSE_OPTIONS, type Movie } from '@blockparty/shared';
+import { FUSE_OPTIONS, type Movie } from '@willio/shared';
 import { api } from './api';
 import { readJSON, writeJSON } from './storage';
 

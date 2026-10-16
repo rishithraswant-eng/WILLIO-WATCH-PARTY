@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
-import { GENRES, LIMITS, type Movie } from '@blockparty/shared';
+import { GENRES, LIMITS, type Movie } from '@willio/shared';
 import { Avatar, Chip } from '@/components/ui/Bits';
 import { GlassButton, IconButton } from '@/components/ui/Glass';
 import { Input, Select } from '@/components/ui/Form';

@@ -1,4 +1,4 @@
-import { DEMO_ROOM_CODE, SYNC, percentile, recommendForGroup, type ControlMode, type GroupMember } from '@blockparty/shared';
+import { DEMO_ROOM_CODE, SYNC, percentile, recommendForGroup, type ControlMode, type GroupMember } from '@willio/shared';
 import type { FastifyBaseLogger } from 'fastify';
 import type { Catalog } from '../catalog/catalog';
 import type { DurableStore } from '../db/durable';

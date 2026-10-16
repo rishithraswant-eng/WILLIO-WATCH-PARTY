@@ -3,7 +3,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { SYNC, type UserSyncMetrics } from '@blockparty/shared';
+import { SYNC, type UserSyncMetrics } from '@willio/shared';
 import { ArcGauge, Badge, Sparkline } from '@/components/ui/Bits';
 import { GlassButton, IconButton } from '@/components/ui/Glass';
 import { Select } from '@/components/ui/Form';

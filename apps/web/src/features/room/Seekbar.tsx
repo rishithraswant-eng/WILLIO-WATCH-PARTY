@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
-import { LIMITS, formatTime } from '@blockparty/shared';
+import { LIMITS, formatTime } from '@willio/shared';
 import { cx } from '@/lib/util';
 import { useRoom } from '@/store/room';
 import { useRoomClient } from './context';

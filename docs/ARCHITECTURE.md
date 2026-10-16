@@ -1,6 +1,6 @@
 # Architecture
 
-BlockParty treats synchronized playback as a distributed-systems problem: one authoritative timeline per room,
+Willio treats synchronized playback as a distributed-systems problem: one authoritative timeline per room,
 clients that never stream positions, scheduled execution, and a drift controller that only ever *corrects* toward
 the timeline.
 

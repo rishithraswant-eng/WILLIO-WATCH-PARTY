@@ -2,7 +2,7 @@
 
 import { QRCodeSVG } from 'qrcode.react';
 import { useEffect, useRef, useState } from 'react';
-import { formatTime } from '@blockparty/shared';
+import { formatTime } from '@willio/shared';
 import { Kbd } from '@/components/ui/Bits';
 import { GlassButton } from '@/components/ui/Glass';
 import { Input, Select, Slider, Switch } from '@/components/ui/Form';
@@ -23,7 +23,7 @@ export function InviteModal({ open, onClose, code }: { open: boolean; onClose: (
   };
   const share = async () => {
     try {
-      await navigator.share({ title: 'Join my BlockParty', text: `Room code ${code}`, url: link });
+      await navigator.share({ title: 'Join my Willio', text: `Room code ${code}`, url: link });
     } catch {
       /* cancelled */
     }
@@ -190,7 +190,7 @@ export function RecapModal({ open, onClose }: { open: boolean; onClose: () => vo
       const plex = getComputedStyle(document.documentElement).getPropertyValue('--font-plex') || 'sans-serif';
       ctx.fillStyle = '#2ee6c5';
       ctx.font = `20px ${pixelFont}`;
-      ctx.fillText('BLOCKPARTY RECAP', 100, 120);
+      ctx.fillText('WILLIO RECAP', 100, 120);
       ctx.fillStyle = '#eafff9';
       ctx.font = `600 52px ${plex}`;
       const title = s.state?.media?.title ?? 'Watch party';
@@ -242,8 +242,8 @@ export function RecapModal({ open, onClose }: { open: boolean; onClose: () => vo
     if (!url) return;
     try {
       const blob = await (await fetch(url)).blob();
-      const file = new File([blob], 'blockparty-recap.png', { type: 'image/png' });
-      if (navigator.canShare?.({ files: [file] })) await navigator.share({ files: [file], title: 'BlockParty recap' });
+      const file = new File([blob], 'willio-recap.png', { type: 'image/png' });
+      if (navigator.canShare?.({ files: [file] })) await navigator.share({ files: [file], title: 'Willio recap' });
       else toast.info('Sharing files is not supported here - use Download');
     } catch {
       /* cancelled */
@@ -256,7 +256,7 @@ export function RecapModal({ open, onClose }: { open: boolean; onClose: () => vo
         <canvas ref={canvas} className="aspect-[1200/630] w-full bg-black" aria-label="Recap card preview" role="img" />
         <div className="flex justify-end gap-2">
           {url ? (
-            <a href={url} download="blockparty-recap.png" className="font-label pixel-corners-sm inline-flex h-10 items-center bg-teal-500 px-4 text-xs text-ink hover:bg-teal-400">
+            <a href={url} download="willio-recap.png" className="font-label pixel-corners-sm inline-flex h-10 items-center bg-teal-500 px-4 text-xs text-ink hover:bg-teal-400">
               Download PNG
             </a>
           ) : null}

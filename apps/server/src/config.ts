@@ -6,7 +6,7 @@ import { z } from 'zod';
 export const SERVER_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const REPO_ROOT = resolve(SERVER_ROOT, '..', '..');
 
-const DEV_SECRET = 'blockparty-dev-secret-change-me';
+const DEV_SECRET = 'willio-dev-secret-change-me';
 
 const bool = (def: boolean) =>
   z

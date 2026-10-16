@@ -1,4 +1,4 @@
-import { hashString, seededRandom } from '@blockparty/shared';
+import { hashString, seededRandom } from '@willio/shared';
 
 /** 8x8 blocky ("Steve-like") face generated deterministically from a seed. */
 export interface PixelGrid {

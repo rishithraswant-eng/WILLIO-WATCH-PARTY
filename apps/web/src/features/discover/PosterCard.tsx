@@ -1,7 +1,7 @@
 'use client';
 
 import { memo, type ReactNode } from 'react';
-import type { Movie } from '@blockparty/shared';
+import type { Movie } from '@willio/shared';
 import { Hearts } from '@/components/ui/Bits';
 import { cx } from '@/lib/util';
 import { PixelPoster } from './PixelPoster';

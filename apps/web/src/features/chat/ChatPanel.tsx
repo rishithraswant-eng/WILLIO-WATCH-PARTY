@@ -1,7 +1,7 @@
 'use client';
 
 import { memo, useEffect, useLayoutEffect, useMemo, useRef, useState, type FormEvent, type KeyboardEvent } from 'react';
-import { LIMITS, formatTime, type ChatMessage } from '@blockparty/shared';
+import { LIMITS, formatTime, type ChatMessage } from '@willio/shared';
 import { Avatar } from '@/components/ui/Bits';
 import { IconButton } from '@/components/ui/Glass';
 import { Switch } from '@/components/ui/Form';

@@ -15,7 +15,7 @@ import {
   type MovieFilters,
   type MovieSort,
   type Recommendation,
-} from '@blockparty/shared';
+} from '@willio/shared';
 import { Chip, Skeleton } from '@/components/ui/Bits';
 import { GlassButton } from '@/components/ui/Glass';
 import { Input, Select, Slider, Switch } from '@/components/ui/Form';

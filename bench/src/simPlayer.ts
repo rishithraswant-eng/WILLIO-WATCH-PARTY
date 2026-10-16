@@ -1,5 +1,5 @@
 import { performance } from 'node:perf_hooks';
-import type { PlayerLike } from '@blockparty/shared';
+import type { PlayerLike } from '@willio/shared';
 
 /**
  * Deterministic-ish simulated video element:

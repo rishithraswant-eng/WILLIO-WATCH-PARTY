@@ -8,7 +8,7 @@
 import { writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { deriveMoods, hashString, type Movie, type StreamType } from '@blockparty/shared';
+import { deriveMoods, hashString, type Movie, type StreamType } from '@willio/shared';
 
 const OUT = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'data', 'catalog.json');
 

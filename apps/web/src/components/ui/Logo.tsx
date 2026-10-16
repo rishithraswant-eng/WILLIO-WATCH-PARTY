@@ -19,13 +19,13 @@ export function LogoCube({ size = 28 }: { size?: number }) {
 
 export function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <Link href="/" className="group inline-flex items-center gap-2.5" aria-label="BlockParty home">
+    <Link href="/" className="group inline-flex items-center gap-2.5" aria-label="Willio home">
       <span className="transition-transform duration-200 ease-out group-hover:-translate-y-0.5">
         <LogoCube />
       </span>
       {!compact ? (
         <span className="font-pixel text-[11px] tracking-tight text-hi sm:text-xs">
-          BLOCK<span className="text-teal-400">PARTY</span>
+          WIL<span className="text-teal-400">LIO</span>
         </span>
       ) : null}
     </Link>

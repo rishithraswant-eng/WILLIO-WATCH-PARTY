@@ -9,7 +9,7 @@ export interface SessionClaims {
   seed: string;
 }
 
-const ISSUER = 'blockparty';
+const ISSUER = 'willio';
 const TTL = '24h';
 
 export class TokenService {

@@ -1,4 +1,4 @@
-import type { LoggedEvent } from '@blockparty/shared';
+import type { LoggedEvent } from '@willio/shared';
 
 /** Fixed-capacity ring of logged events with replay-from-eseq. */
 export class EventLog {

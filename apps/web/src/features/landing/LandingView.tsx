@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { DEMO_ROOM_CODE, SYNC } from '@blockparty/shared';
+import { DEMO_ROOM_CODE, SYNC } from '@willio/shared';
 import { TopBar } from '@/components/TopBar';
 import { ArcGauge, Kbd } from '@/components/ui/Bits';
 import { GlassButton, GlassPanel } from '@/components/ui/Glass';

@@ -1,6 +1,6 @@
 import type { FastifyBaseLogger } from 'fastify';
 import type { Prisma, PrismaClient } from '@prisma/client';
-import type { Movie } from '@blockparty/shared';
+import type { Movie } from '@willio/shared';
 
 /**
  * Durable (PostgreSQL via Prisma) write-behind store.

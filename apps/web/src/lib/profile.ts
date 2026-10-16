@@ -1,4 +1,4 @@
-import { buildTasteVector, hasTaste, type Movie, type TasteVector } from '@blockparty/shared';
+import { buildTasteVector, hasTaste, type Movie, type TasteVector } from '@willio/shared';
 import { readJSON, writeJSON } from './storage';
 
 export interface Profile {

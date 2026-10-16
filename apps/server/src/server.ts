@@ -1,7 +1,7 @@
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import Fastify, { type FastifyBaseLogger, type FastifyInstance } from 'fastify';
-import { shortId } from '@blockparty/shared';
+import { shortId } from '@willio/shared';
 import { registerApi, readLatestBench } from './api/routes';
 import { TokenService } from './auth/token';
 import { Catalog } from './catalog/catalog';
@@ -126,7 +126,7 @@ export async function createServer(config: Config, options: CreateServerOptions 
   const port = typeof address === 'object' && address ? address.port : config.port;
   log.info(
     { port, kv: kv.kind, db: durable.enabled, catalog: catalog.size, bootId },
-    `BlockParty server ready on http://localhost:${port}`,
+    `Willio server ready on http://localhost:${port}`,
   );
 
   // Background, non-blocking boot work.

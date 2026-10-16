@@ -10,5 +10,5 @@ export default defineConfig({
   sourcemap: true,
   splitting: false,
   // The shared workspace package is TypeScript source: bundle it in.
-  noExternal: ['@blockparty/shared'],
+  noExternal: ['@willio/shared'],
 });

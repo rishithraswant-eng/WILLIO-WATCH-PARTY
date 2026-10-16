@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ROOM_CODE_REGEX } from '@blockparty/shared';
+import { ROOM_CODE_REGEX } from '@willio/shared';
 import { GlassButton, GlassPanel } from '@/components/ui/Glass';
 import { PixelIcon } from '@/components/ui/PixelIcon';
 import { ProfileModal } from '@/features/landing/ProfileModal';

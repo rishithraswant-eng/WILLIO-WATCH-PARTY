@@ -37,7 +37,7 @@ import {
   type AckError,
   type ErrorCode,
   type RateLimitKey,
-} from '@blockparty/shared';
+} from '@willio/shared';
 import type { TokenService } from '../auth/token';
 import type { Room } from '../rooms/Room';
 import type { RoomManager } from '../rooms/RoomManager';

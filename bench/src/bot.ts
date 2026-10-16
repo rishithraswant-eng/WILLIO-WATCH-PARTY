@@ -16,7 +16,7 @@ import {
   type PlaybackState,
   type Snapshot,
   type StateUpdate,
-} from '@blockparty/shared';
+} from '@willio/shared';
 import { SimPlayer } from './simPlayer';
 
 export interface Netem {

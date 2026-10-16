@@ -8,7 +8,7 @@ const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   output: 'standalone',
-  transpilePackages: ['@blockparty/shared'],
+  transpilePackages: ['@willio/shared'],
   experimental: {
     // monorepo: trace workspace packages into the standalone output
     outputFileTracingRoot: resolve(here, '..', '..'),

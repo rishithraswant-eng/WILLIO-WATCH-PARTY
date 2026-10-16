@@ -10,7 +10,7 @@ import {
   uuid,
   type ErrorCode,
   type RateLimitKey,
-} from '@blockparty/shared';
+} from '@willio/shared';
 import type { TokenService } from '../auth/token';
 import type { Catalog } from '../catalog/catalog';
 import type { DurableStore } from '../db/durable';
@@ -92,21 +92,21 @@ export async function registerApi(app: FastifyInstance, deps: ApiDeps): Promise<
   app.get('/api/metrics', async (_req, reply) => {
     const s = manager.stats();
     const lines = [
-      '# HELP blockparty_rooms Active rooms',
-      '# TYPE blockparty_rooms gauge',
-      `blockparty_rooms ${s.rooms}`,
-      '# HELP blockparty_users Connected users',
-      '# TYPE blockparty_users gauge',
-      `blockparty_users ${s.users}`,
-      '# HELP blockparty_propagation_ms Control propagation latency (rolling 5 min)',
-      '# TYPE blockparty_propagation_ms summary',
-      `blockparty_propagation_ms{quantile="0.5"} ${s.p50 ?? 'NaN'}`,
-      `blockparty_propagation_ms{quantile="0.95"} ${s.p95 ?? 'NaN'}`,
-      `blockparty_propagation_ms{quantile="0.99"} ${s.p99 ?? 'NaN'}`,
-      `blockparty_propagation_ms_count ${s.propagationSamples}`,
-      '# HELP blockparty_durable_pending Queued durable writes',
-      '# TYPE blockparty_durable_pending gauge',
-      `blockparty_durable_pending ${deps.durable.pending()}`,
+      '# HELP willio_rooms Active rooms',
+      '# TYPE willio_rooms gauge',
+      `willio_rooms ${s.rooms}`,
+      '# HELP willio_users Connected users',
+      '# TYPE willio_users gauge',
+      `willio_users ${s.users}`,
+      '# HELP willio_propagation_ms Control propagation latency (rolling 5 min)',
+      '# TYPE willio_propagation_ms summary',
+      `willio_propagation_ms{quantile="0.5"} ${s.p50 ?? 'NaN'}`,
+      `willio_propagation_ms{quantile="0.95"} ${s.p95 ?? 'NaN'}`,
+      `willio_propagation_ms{quantile="0.99"} ${s.p99 ?? 'NaN'}`,
+      `willio_propagation_ms_count ${s.propagationSamples}`,
+      '# HELP willio_durable_pending Queued durable writes',
+      '# TYPE willio_durable_pending gauge',
+      `willio_durable_pending ${deps.durable.pending()}`,
       '# HELP process_resident_memory_bytes Resident memory',
       '# TYPE process_resident_memory_bytes gauge',
       `process_resident_memory_bytes ${process.memoryUsage().rss}`,

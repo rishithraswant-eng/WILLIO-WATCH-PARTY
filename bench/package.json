@@ -1,5 +1,5 @@
 {
-  "name": "@blockparty/bench",
+  "name": "@willio/bench",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -7,7 +7,7 @@
     "typecheck": "tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@blockparty/shared": "*",
+    "@willio/shared": "*",
     "socket.io-client": "^4.8.1"
   }
 }

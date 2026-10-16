@@ -1,4 +1,4 @@
-// BlockParty durable data model (PRD section 9).
+// Willio durable data model (PRD section 9).
 // The realtime hot path never waits on these tables: the server keeps room state in memory
 // and writes here asynchronously through a batched write-behind queue (apps/server/src/db).
 
